@@ -3,6 +3,7 @@ const express  = require('express')
 const app = express();
 const puerto = 3000;
 
+app.use(express.json());
 
 //ruta para comprobar que la api funcionca
 app.get('/',(req,res) =>{
@@ -31,7 +32,26 @@ app.get('/tareas/:id', (req, res) => {
   }
 
   res.json(tarea);
+});0
+
+//crear tarea 
+app.post('/tareas', (req, res) => {
+  const { titulo } = req.body || {};
+
+  if (!titulo) {
+    return res.status(400).json({ error: 'El título es obligatorio' });
+  }
+
+  const nuevaTarea = {
+    id: tareas.length + 1,
+    titulo: titulo,
+    completada: false
+  };
+
+  tareas.push(nuevaTarea);
+  res.status(201).json(nuevaTarea);
 });
+
 
 //INCIAR SERV
 app.listen(puerto, ()=>{
